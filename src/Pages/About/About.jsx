@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { IconName } from "react-icons/io5";
 import {
   IoCutSharp,
@@ -17,16 +18,69 @@ import "./about.scss";
 
 
 function About() {
+  const h3Variants = {
+    hidden: {
+      x: -1000,
+      opacity: 0,
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+    },
+  };
+
+  const workVariants = {
+    visible: (idx) => ({
+      opacity: 1,
+      transition: {
+        delay: idx * 0.6,
+      },
+    }),
+    hidden: {opacity: 0,},
+  }
+
+  const works = [
+    {
+      title: "Макияж",
+      imgUrl: Porfolio1,
+    },
+    {
+      title: "Маникюр",
+      imgUrl: Porfolio2,
+    },
+    {
+      title: "Педикюр",
+      imgUrl: Porfolio3,
+    },
+  ];
+
+
   return (
     <section className="about">
       <div className="container">
         <div className="about__intro">
-          <h1>Добро пожаловать!</h1>
+          <motion.h1
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 1,
+            }}
+          >
+            Добро пожаловать!
+          </motion.h1>
           <p>Салон красоты "Я Уникальная"</p>
         </div>
 
         <div className="about__skills">
-          <h3>Наши услуги</h3>
+          <motion.h3
+            variants={h3Variants}
+            initial={"hidden"}
+            animate={"visible"}
+            transition={{
+              duration: 1,
+            }}
+          >
+            Наши услуги
+          </motion.h3>
           <ul>
             <li>
               <IoCutSharp />
@@ -56,20 +110,21 @@ function About() {
         </div>
 
         <div className="about__portfolio">
-          <h3>Наши работы</h3>
+          <h3>Последние работы</h3>
           <ul>
-            <li>
-              <img src={Porfolio1} alt="" />
-              <h4>Макияж</h4>
-            </li>
-            <li>
-              <img src={Porfolio2} alt="" />
-              <h4>Маникюр</h4>
-            </li>
-            <li>
-              <img src={Porfolio3} alt="" />
-              <h4>Педикюр</h4>
-            </li>
+              {works.map((work,idx)=> (
+                    <motion.li
+                      variants={workVariants}
+                      initial={"hidden"}
+                      animate={"visible"}
+                      key={idx}
+                      custom={idx}
+                    >
+                      <img src={work.imgUrl} alt="" />
+                      <h4>{work.title}</h4>
+                    </motion.li>
+                ))}
+           
           </ul>
         </div>
       </div>
